@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="gesture-detector.js"></script>
+    <script src="gesture-handler.js"></script>
+    <!-- <script src="model-viewer.js"></script> -->
+  </head>
+  <body>
+    <a-scene
+      vr-mode-ui="enabled: false;"
+      model-viewer="gltfModel: #triceratops; title: Triceratops"
+    >
+      <a-assets>
+        <a-asset-item
+          id="butterfly"
+          src="models/butterfly/scene.gltf"
+          response-type="arraybuffer"
+          crossorigin="anonymous"
+        ></a-asset-item>
+      </a-assets>
+      <a-entity
+        gltf-model="models/butterfly/scene.gltf"
+        scale="2 2 2"
+        position="0 0 -150"
+        rotation="0 0 0"
+        class="clickable"
+        gesture-handler="minScale: 1; maxScale: 10"
+      >
+      </a-entity>
+      <a-entity camera></a-entity>
+    </a-scene>
+    <script>
+      var handleRotation = event => {
+        el.object3D.rotation.y +=
+          event.detail.positionChange.y * rotationFactor;
+
+        // el.object3D.rotation.x +=
+        //   event.detail.positionChange.y * rotationFactor;
+      };
+
+      var handleScale = event => {
+        this.scaleFactor *=
+          1 + event.detail.spreadChange / event.detail.startSpread;
+
+        this.scaleFactor = Math.min(
+          Math.max(this.scaleFactor, this.data.minScale),
+          this.data.maxScale
+        );
+
+        el.object3D.scale.x = scaleFactor * initialScale.x;
+        el.object3D.scale.y = scaleFactor * initialScale.y;
+        el.object3D.scale.z = scaleFactor * initialScale.z;
+      };
+
+      sceneEl.addEventListener("onefingermove", handleRotation);
+      sceneEl.addEventListener("twofingermove", handleScale);
+    </script>
+  </body>
+</html>

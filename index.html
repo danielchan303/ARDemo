@@ -6,95 +6,279 @@
 
 <!-- style for the loader -->
 <style>
-    .arjs-loader {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.8);
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .arjs-loader div {
-        text-align: center;
-        font-size: 1.25em;
-        color: white;
-    }
+  .arjs-loader {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .arjs-loader div {
+    text-align: center;
+    font-size: 1.25em;
+    color: white;
+  }
 </style>
 
 <body style="margin: 0px; overflow: hidden">
-    <!-- minimal loader shown until image descriptors are loaded. Loading may take a while according to the device computational power -->
-    <div class="arjs-loader">
-        <div>Loading, please wait...</div>
-    </div>
+  <!-- minimal loader shown until image descriptors are loaded. Loading may take a while according to the device computational power -->
+  <div class="arjs-loader">
+    <div>Loading, please wait...</div>
+  </div>
 
-    <!-- a-frame scene -->
-    <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded gesture-detector arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;">
-        <!-- a-nft is the anchor that defines an Image Tracking entity -->
-        <!-- on 'url' use the path to the Image Descriptors created before. -->
-        <!-- the path should end with the name without the extension e.g. if file is 'pinball.fset' the path should end with 'pinball' -->
-        <a-nft type="nft" url="markers/fox" raycaster="objects: .clickable" emitevents="true" cursor="fuse: false; rayOrigin: mouse;" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-            <!-- as a child of the a-nft entity, you can define the content to show. here's a GLTF model entity -->
-            <a-entity gltf-model="models/fox/Fox.gltf" scale="30 30 30" position="0 0 -150" rotation="0 0 0" class="clickable" gesture-handler="minScale: 1; maxScale: 10">
-            </a-entity>
-        </a-nft>
-        <a-nft type="nft" url="markers/cat" raycaster="objects: .clickable" emitevents="true" cursor="fuse: false; rayOrigin: mouse;" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-            <!-- as a child of the a-nft entity, you can define the content to show. here's a GLTF model entity -->
-            <a-entity gltf-model="models/cat/Mesh_Cat.gltf" scale="3 3 3" position="0 0 -170" rotation="0 0 0" class="clickable" gesture-handler="minScale: 1; maxScale: 10">
-            </a-entity>
-        </a-nft>
-        <a-nft type="nft" url="markers/lighthouse" raycaster="objects: .clickable" emitevents="true" cursor="fuse: false; rayOrigin: mouse;" smooth="true" smoothCount="10" smoothTolerance=".01" smoothThreshold="5">
-          <!-- as a child of the a-nft entity, you can define the content to show. here's a GLTF model entity -->
-          <a-entity gltf-model="models/light-house/Lighthouse singly.gltf" scale="3 3 3" position="0 0 -170" rotation="0 0 0" class="clickable" gesture-handler="minScale: 1; maxScale: 10">
-          </a-entity>
-      </a-nft>
-        <!-- static camera that moves according to the device movemenents -->
-        <a-entity camera></a-entity>
-    </a-scene>
+  <!-- a-frame scene -->
+  <a-scene
+    vr-mode-ui="enabled: false;"
+    renderer="logarithmicDepthBuffer: true;"
+    embedded
+    gesture-detector
+    arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
+  >
+    <!-- a-nft is the anchor that defines an Image Tracking entity -->
+    <!-- on 'url' use the path to the Image Descriptors created before. -->
+    <!-- the path should end with the name without the extension e.g. if file is 'pinball.fset' the path should end with 'pinball' -->
+    <a-nft
+      id="bridge"
+      type="nft"
+      url="markers/bridge"
+      raycaster="objects: .clickable"
+      cursor="fuse: false; rayOrigin: mouse;"
+      emitevents="true"
+      smooth="true"
+      smoothCount="10"
+      smoothTolerance=".01"
+      smoothThreshold="5"
+    ></a-nft>
+    <a-nft
+      id="buddha"
+      type="nft"
+      url="markers/buddha"
+      raycaster="objects: .clickable"
+      cursor="fuse: false; rayOrigin: mouse;"
+      emitevents="true"
+      smooth="true"
+      smoothCount="10"
+      smoothTolerance=".01"
+      smoothThreshold="5"
+    ></a-nft>
+    <a-nft
+      id="butterfly"
+      type="nft"
+      url="markers/butterfly"
+      raycaster="objects: .clickable"
+      cursor="fuse: false; rayOrigin: mouse;"
+      emitevents="true"
+      smooth="true"
+      smoothCount="10"
+      smoothTolerance=".01"
+      smoothThreshold="5"
+    >
+      <!-- as a child of the a-nft entity, you can define the content to show. here's a GLTF model entity -->
+      <!-- <a-entity
+        gltf-model="models/butterfly/scene.gltf"
+        scale="3 3 3"
+        position="0 0 -170"
+        rotation="0 0 0"
+        class="clickable"
+        gesture-handler="minScale: 1; maxScale: 10"
+      >
+      </a-entity> -->
+    </a-nft>
+    <a-nft
+      id="canon"
+      type="nft"
+      url="markers/canon"
+      raycaster="objects: .clickable"
+      cursor="fuse: false; rayOrigin: mouse;"
+      emitevents="true"
+      smooth="true"
+      smoothCount="10"
+      smoothTolerance=".01"
+      smoothThreshold="5"
+    ></a-nft>
+    <a-nft
+      id="crab"
+      type="nft"
+      url="markers/crab"
+      raycaster="objects: .clickable"
+      cursor="fuse: false; rayOrigin: mouse;"
+      emitevents="true"
+      smooth="true"
+      smoothCount="10"
+      smoothTolerance=".01"
+      smoothThreshold="5"
+    ></a-nft>
+    <a-nft
+      id="dcm"
+      type="nft"
+      url="markers/dcm"
+      raycaster="objects: .clickable"
+      cursor="fuse: false; rayOrigin: mouse;"
+      emitevents="true"
+      smooth="true"
+      smoothCount="10"
+      smoothTolerance=".01"
+      smoothThreshold="5"
+    ></a-nft>
+    <a-nft
+      id="dolphin"
+      type="nft"
+      url="markers/dolphin"
+      raycaster="objects: .clickable"
+      cursor="fuse: false; rayOrigin: mouse;"
+      emitevents="true"
+      smooth="true"
+      smoothCount="10"
+      smoothTolerance=".01"
+      smoothThreshold="5"
+    ></a-nft>
+    <a-nft
+      id="park"
+      type="nft"
+      url="markers/park"
+      raycaster="objects: .clickable"
+      cursor="fuse: false; rayOrigin: mouse;"
+      emitevents="true"
+      smooth="true"
+      smoothCount="10"
+      smoothTolerance=".01"
+      smoothThreshold="5"
+    ></a-nft>
+    <a-nft
+      id="shore"
+      type="nft"
+      url="markers/shore"
+      raycaster="objects: .clickable"
+      cursor="fuse: false; rayOrigin: mouse;"
+      emitevents="true"
+      smooth="true"
+      smoothCount="10"
+      smoothTolerance=".01"
+      smoothThreshold="5"
+    ></a-nft>
+    <a-nft
+      id="temple"
+      type="nft"
+      url="markers/temple"
+      raycaster="objects: .clickable"
+      cursor="fuse: false; rayOrigin: mouse;"
+      emitevents="true"
+      smooth="true"
+      smoothCount="10"
+      smoothTolerance=".01"
+      smoothThreshold="5"
+    ></a-nft>
+    <!-- static camera that moves according to the device movemenents -->
+    <a-entity camera></a-entity>
+  </a-scene>
 
-    <script>
-        var handleRotation = (event) => {
-            if (isMarkerVisible) {
-                el.object3D.rotation.y +=
-                    event.detail.positionChange.x * rotationFactor;
+  <script>
+    var handleRotation = event => {
+      if (isMarkerVisible) {
+        el.object3D.rotation.y +=
+          event.detail.positionChange.y * rotationFactor;
 
-                el.object3D.rotation.x +=
-                    event.detail.positionChange.y * rotationFactor;
-            }
-        };
+        // el.object3D.rotation.x +=
+        //   event.detail.positionChange.y * rotationFactor;
+      }
+    };
 
-        var handleScale = (event) => {
-            if (isMarkerVisible) {
-                this.scaleFactor *=
-                    1 + event.detail.spreadChange / event.detail.startSpread;
+    var handleScale = event => {
+      if (isMarkerVisible) {
+        this.scaleFactor *=
+          1 + event.detail.spreadChange / event.detail.startSpread;
 
-                this.scaleFactor = Math.min(
-                    Math.max(this.scaleFactor, this.data.minScale),
-                    this.data.maxScale
-                );
+        this.scaleFactor = Math.min(
+          Math.max(this.scaleFactor, this.data.minScale),
+          this.data.maxScale
+        );
 
-                el.object3D.scale.x = scaleFactor * initialScale.x;
-                el.object3D.scale.y = scaleFactor * initialScale.y;
-                el.object3D.scale.z = scaleFactor * initialScale.z;
-            }
-        };
+        el.object3D.scale.x = scaleFactor * initialScale.x;
+        el.object3D.scale.y = scaleFactor * initialScale.y;
+        el.object3D.scale.z = scaleFactor * initialScale.z;
+      }
+    };
 
-        let sceneEl = document.querySelector("a-scene");
-        sceneEl.addEventListener("markerFound", (e) => {
-            isMarkerVisible = true;
-            // alert("marker found");
-        });
+    let bridge = document.querySelector("#bridge");
+    bridge.addEventListener("markerFound", e => {
+      isMarkerVisible = true;
+      alert("bridge found");
+      // document.location = "./trial";
+    });
+    let buddha = document.querySelector("#buddha");
+    buddha.addEventListener("markerFound", e => {
+      isMarkerVisible = true;
+      alert("buddha found");
+      // document.location = "./trial";
+    });
+    let butterfly = document.querySelector("#butterfly");
+    butterfly.addEventListener("markerFound", e => {
+      isMarkerVisible = true;
+      alert("butterfly found");
+      //   document.location = "./trial";
+      window.open("./trial", "_blank").focus();
+    });
+    let canon = document.querySelector("#canon");
+    canon.addEventListener("markerFound", e => {
+      isMarkerVisible = true;
+      alert("canon found");
+      // document.location = "./trial";
+    });
+    let crab = document.querySelector("#crab");
+    crab.addEventListener("markerFound", e => {
+      isMarkerVisible = true;
+      alert("crab found");
+      // document.location = "./trial";
+    });
+    let dcm = document.querySelector("#dcm");
+    dcm.addEventListener("markerFound", e => {
+      isMarkerVisible = true;
+      alert("dcm found");
+      // document.location = "./trial";
+    });
+    let dolphin = document.querySelector("#dolphin");
+    dolphin.addEventListener("markerFound", e => {
+      isMarkerVisible = true;
+      alert("dolphin found");
+      // document.location = "./trial";
+    });
+    let park = document.querySelector("#park");
+    park.addEventListener("markerFound", e => {
+      isMarkerVisible = true;
+      alert("park found");
+      // document.location = "./trial";
+    });
+    let shore = document.querySelector("#shore");
+    shore.addEventListener("markerFound", e => {
+      isMarkerVisible = true;
+      alert("shore found");
+      // document.location = "./trial";
+    });
+    let temple = document.querySelector("#temple");
+    temple.addEventListener("markerFound", e => {
+      isMarkerVisible = true;
+      alert("temple found");
+      // document.location = "./trial";
+    });
 
-        sceneEl.addEventListener("markerLost", (e) => {
-            isMarkerVisible = false;
-            // alert("marker lost");
-        });
+    let sceneEl = document.querySelector("a-scene");
+    sceneEl.addEventListener("markerFound", e => {
+      isMarkerVisible = true;
+      //   alert("marker found");
+    });
 
-        sceneEl.addEventListener("onefingermove", handleRotation);
-        sceneEl.addEventListener("twofingermove", handleScale);
-    </script>
+    sceneEl.addEventListener("markerLost", e => {
+      isMarkerVisible = false;
+      // alert("marker lost");
+    });
+
+    sceneEl.addEventListener("onefingermove", handleRotation);
+    sceneEl.addEventListener("twofingermove", handleScale);
+  </script>
 </body>
