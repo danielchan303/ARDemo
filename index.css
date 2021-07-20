@@ -1,0 +1,43 @@
+.my-loader,
+#popup {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-loader div {
+  text-align: center;
+  font-size: 1.25em;
+  color: white;
+}
+
+#popup {
+  display: none;
+}
+
+#message-box {
+  max-width: 90%;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: white;
+  border-radius: 5px;
+}
+
+#message-box a,
+#cancel {
+  text-decoration: none;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 16px;
+  font-family: Arial;
+  font-size: 16px;
+  min-width: 30vw;
+}

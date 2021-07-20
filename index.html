@@ -1,35 +1,31 @@
 <!-- import aframe and then ar.js with image tracking / location based features -->
-<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
+<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
 <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 <script src="gesture-detector.js"></script>
 <script src="gesture-handler.js"></script>
-
-<!-- style for the loader -->
-<style>
-  .arjs-loader {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .arjs-loader div {
-    text-align: center;
-    font-size: 1.25em;
-    color: white;
-  }
-</style>
+<script>
+  let numOfReadyMarker = 0;
+  window.addEventListener("arjs-nft-loaded", (e) => {
+    console.log("nft loading finished");
+    numOfReadyMarker++;
+    if (numOfReadyMarker == 10) {
+      document.querySelector(".my-loader").style.display = "none";
+    }
+  });
+</script>
+<link rel="stylesheet" href="index.css" />
+<link rel="stylesheet" href="spinner.css" />
 
 <body style="margin: 0px; overflow: hidden">
   <!-- minimal loader shown until image descriptors are loaded. Loading may take a while according to the device computational power -->
-  <div class="arjs-loader">
-    <div>Loading, please wait...</div>
+  <div class="my-loader">
+    <div class="lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </div>
 
   <!-- a-frame scene -->
@@ -40,6 +36,17 @@
     gesture-detector
     arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
   >
+    <a-assets>
+      <a-asset-item
+        id="butterfly-model"
+        src="models/butterfly/scene.gltf"
+      ></a-asset-item>
+      <a-asset-item id="crab-model" src="models/crab/scene.gltf"></a-asset-item>
+      <a-asset-item
+        id="dolphin-model"
+        src="models/dolphin/scene.gltf"
+      ></a-asset-item>
+    </a-assets>
     <!-- a-nft is the anchor that defines an Image Tracking entity -->
     <!-- on 'url' use the path to the Image Descriptors created before. -->
     <!-- the path should end with the name without the extension e.g. if file is 'pinball.fset' the path should end with 'pinball' -->
@@ -80,15 +87,16 @@
       smoothThreshold="5"
     >
       <!-- as a child of the a-nft entity, you can define the content to show. here's a GLTF model entity -->
-      <!-- <a-entity
-        gltf-model="models/butterfly/scene.gltf"
+      <a-entity
+        animation-mixer
+        gltf-model="#butterfly-model"
         scale="3 3 3"
         position="0 0 -170"
         rotation="0 0 0"
         class="clickable"
         gesture-handler="minScale: 1; maxScale: 10"
       >
-      </a-entity> -->
+      </a-entity>
     </a-nft>
     <a-nft
       id="canon"
@@ -113,7 +121,18 @@
       smoothCount="10"
       smoothTolerance=".01"
       smoothThreshold="5"
-    ></a-nft>
+    >
+      <a-entity
+        animation-mixer
+        gltf-model="#crab-model"
+        scale="13 13 13"
+        position="0 0 -170"
+        rotation="0 0 0"
+        class="clickable"
+        gesture-handler="minScale: 1; maxScale: 10"
+      >
+      </a-entity>
+    </a-nft>
     <a-nft
       id="dcm"
       type="nft"
@@ -137,7 +156,18 @@
       smoothCount="10"
       smoothTolerance=".01"
       smoothThreshold="5"
-    ></a-nft>
+    >
+      <a-entity
+        animation-mixer
+        gltf-model="#dolphin-model"
+        scale="1 1 1"
+        position="0 0 -170"
+        rotation="0 0 0"
+        class="clickable"
+        gesture-handler="minScale: 1; maxScale: 10"
+      >
+      </a-entity>
+    </a-nft>
     <a-nft
       id="park"
       type="nft"
@@ -174,22 +204,46 @@
       smoothTolerance=".01"
       smoothThreshold="5"
     ></a-nft>
-    <!-- static camera that moves according to the device movemenents -->
+    <!-- static camera that moves according to the device movements -->
     <a-entity camera></a-entity>
   </a-scene>
+  <div id="popup">
+    <div id="message-box">
+      <p>You have found ...</p>
+      <button id="cancel">Cancel</button>
+      <a href="./trial" target="_blank">View the model</a>
+    </div>
+  </div>
 
   <script>
-    var handleRotation = event => {
+    // Cancel button handler
+    document.querySelector("#cancel").addEventListener("click", () => {
+      document.querySelector("#popup").style.display = "none";
+    });
+
+    let lastFound = "";
+    function findTargetName(name) {
+      if (lastFound !== name) {
+        document.querySelector(
+          "#message-box p"
+        ).innerHTML = `You have found ${name}`;
+        document.querySelector("#popup").style.display = "flex";
+
+        lastFound = name;
+      }
+    }
+
+    var handleRotation = (event) => {
       if (isMarkerVisible) {
         el.object3D.rotation.y +=
           event.detail.positionChange.y * rotationFactor;
 
-        // el.object3D.rotation.x +=
-        //   event.detail.positionChange.y * rotationFactor;
+        el.object3D.rotation.x +=
+          event.detail.positionChange.x * rotationFactor;
       }
     };
 
-    var handleScale = event => {
+    var handleScale = (event) => {
       if (isMarkerVisible) {
         this.scaleFactor *=
           1 + event.detail.spreadChange / event.detail.startSpread;
@@ -206,74 +260,63 @@
     };
 
     let bridge = document.querySelector("#bridge");
-    bridge.addEventListener("markerFound", e => {
+    bridge.addEventListener("markerFound", (e) => {
       isMarkerVisible = true;
-      alert("bridge found");
-      // document.location = "./trial";
+      findTargetName("bridge");
     });
     let buddha = document.querySelector("#buddha");
-    buddha.addEventListener("markerFound", e => {
+    buddha.addEventListener("markerFound", (e) => {
       isMarkerVisible = true;
-      alert("buddha found");
-      // document.location = "./trial";
+      findTargetName("buddha");
     });
     let butterfly = document.querySelector("#butterfly");
-    butterfly.addEventListener("markerFound", e => {
+    butterfly.addEventListener("markerFound", (e) => {
       isMarkerVisible = true;
-      alert("butterfly found");
-      //   document.location = "./trial";
-      window.open("./trial", "_blank").focus();
+      findTargetName("butterfly");
     });
     let canon = document.querySelector("#canon");
-    canon.addEventListener("markerFound", e => {
+    canon.addEventListener("markerFound", (e) => {
       isMarkerVisible = true;
-      alert("canon found");
-      // document.location = "./trial";
+      findTargetName("canon");
     });
     let crab = document.querySelector("#crab");
-    crab.addEventListener("markerFound", e => {
+    crab.addEventListener("markerFound", (e) => {
       isMarkerVisible = true;
-      alert("crab found");
-      // document.location = "./trial";
+      findTargetName("crab");
     });
     let dcm = document.querySelector("#dcm");
-    dcm.addEventListener("markerFound", e => {
+    dcm.addEventListener("markerFound", (e) => {
       isMarkerVisible = true;
-      alert("dcm found");
-      // document.location = "./trial";
+      findTargetName("dcm");
     });
     let dolphin = document.querySelector("#dolphin");
-    dolphin.addEventListener("markerFound", e => {
+    dolphin.addEventListener("markerFound", (e) => {
       isMarkerVisible = true;
-      alert("dolphin found");
-      // document.location = "./trial";
+      findTargetName("dolphin");
     });
     let park = document.querySelector("#park");
-    park.addEventListener("markerFound", e => {
+    park.addEventListener("markerFound", (e) => {
       isMarkerVisible = true;
-      alert("park found");
-      // document.location = "./trial";
+      findTargetName("park");
     });
     let shore = document.querySelector("#shore");
-    shore.addEventListener("markerFound", e => {
+    shore.addEventListener("markerFound", (e) => {
       isMarkerVisible = true;
-      alert("shore found");
-      // document.location = "./trial";
+      findTargetName("shore");
     });
     let temple = document.querySelector("#temple");
-    temple.addEventListener("markerFound", e => {
+    temple.addEventListener("markerFound", (e) => {
       isMarkerVisible = true;
-      alert("temple found");
-      // document.location = "./trial";
+      findTargetName("temple");
     });
 
     let sceneEl = document.querySelector("a-scene");
-    sceneEl.addEventListener("markerFound", e => {
+    sceneEl.addEventListener("markerFound", (e) => {
       isMarkerVisible = true;
       //   alert("marker found");
     });
 
-    sceneEl.addEventListener("markerLost", e => {
+    sceneEl.addEventListener("markerLost", (e) => {
       isMarkerVisible = false;
       // alert("marker lost");
     });
